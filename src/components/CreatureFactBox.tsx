@@ -108,5 +108,3 @@ const CreatureFactBox: React.FC<CreatureFactBoxProps> = ({ creature, fact, onClo
 };
 
 export default CreatureFactBox;
-  )
-}
