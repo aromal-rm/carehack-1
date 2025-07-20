@@ -8,16 +8,17 @@ interface CreatureFactBoxProps {
   fact: string;
   onClose: () => void;
   onComplete: () => void;
+  talkBackEnabled: boolean;
 }
 
-const CreatureFactBox: React.FC<CreatureFactBoxProps> = ({ creature, fact, onClose, onComplete }) => {
-  const { speak } = useTalkBack(true);
+const CreatureFactBox: React.FC<CreatureFactBoxProps> = ({ creature, fact, onClose, onComplete, talkBackEnabled }) => {
+  const { speak } = useTalkBack(talkBackEnabled);
   const [isNarrating, setIsNarrating] = useState(true);
-  const [countdown, setCountdown] = useState(3);
+  const [countdown, setCountdown] = useState(5);
   const hasSpoken = useRef(false);
 
   useEffect(() => {
-    if (!hasSpoken.current) {
+    if (!hasSpoken.current && talkBackEnabled) {
       const fullText = `Congratulations! You found the ${creature.name}! Here's an interesting fact: ${fact}`;
       speak(fullText);
       hasSpoken.current = true;
@@ -25,13 +26,13 @@ const CreatureFactBox: React.FC<CreatureFactBoxProps> = ({ creature, fact, onClo
       // Estimate speech duration (roughly 150 words per minute)
       const wordCount = fullText.split(' ').length;
       const estimatedDuration = (wordCount / 150) * 60 * 1000; // Convert to milliseconds
-      const minDuration = 4000; // Minimum 4 seconds
+      const minDuration = 5000; // Minimum 5 seconds
       const speechDuration = Math.max(estimatedDuration, minDuration);
       
       const speechTimer = setTimeout(() => {
         setIsNarrating(false);
         // Start countdown after speech completes
-        let countdownValue = 3;
+        let countdownValue = 5;
         setCountdown(countdownValue);
         
         const countdownInterval = setInterval(() => {
@@ -52,8 +53,27 @@ const CreatureFactBox: React.FC<CreatureFactBoxProps> = ({ creature, fact, onClo
       return () => {
         clearTimeout(speechTimer);
       };
+    } else if (!talkBackEnabled) {
+      // If talkback is disabled, skip narration and go straight to countdown
+      setIsNarrating(false);
+      let countdownValue = 3; // Shorter countdown when no narration
+      setCountdown(countdownValue);
+      
+      const countdownInterval = setInterval(() => {
+        countdownValue--;
+        setCountdown(countdownValue);
+        
+        if (countdownValue <= 0) {
+          clearInterval(countdownInterval);
+          onComplete();
+        }
+      }, 1000);
+      
+      return () => {
+        clearInterval(countdownInterval);
+      };
     }
-  }, [creature.name, fact, speak, onComplete]);
+  }, [creature.name, fact, speak, onComplete, talkBackEnabled]);
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">

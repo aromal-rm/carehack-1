@@ -4,14 +4,17 @@ import { useTalkBack } from '../hooks/useTalkBack';
 
 interface GameCompleteProps {
   onRestart: () => void;
+  talkBackEnabled: boolean;
 }
 
-const GameComplete: React.FC<GameCompleteProps> = ({ onRestart }) => {
-  const { speak } = useTalkBack(true);
+const GameComplete: React.FC<GameCompleteProps> = ({ onRestart, talkBackEnabled }) => {
+  const { speak } = useTalkBack(talkBackEnabled);
 
   useEffect(() => {
-    speak("Congratulations! You have successfully completed all five levels of Echo Grove. You discovered the Owl, Fox, Deer, Squirrel, and Phoenix. Well done, brave explorer!");
-  }, [speak]);
+    if (talkBackEnabled) {
+      speak("Congratulations! You have successfully completed all five levels of Echo Grove. You discovered the Owl, Fox, Deer, Squirrel, and Phoenix. Well done, brave explorer!");
+    }
+  }, [speak, talkBackEnabled]);
 
   return (
     <div className="max-w-2xl mx-auto text-center p-6">

@@ -37,10 +37,6 @@ function App() {
 
   const handleLevelStart = () => {
     setGameState('playing');
-    const creature = creatures.find(c => c.level === currentLevel);
-    if (creature) {
-      speak(`Level ${currentLevel}: Find the hidden ${creature.name}. Move your cursor slowly and listen for audio cues. Press Enter when you think you've found it.`);
-    }
   };
 
   const handleLevelComplete = () => {
@@ -49,7 +45,6 @@ function App() {
       setGameState('levelIntro');
     } else {
       setGameState('complete');
-      speak("Congratulations! You have completed all levels of Echo Grove!");
     }
   };
 
@@ -126,7 +121,7 @@ function App() {
         )}
         
         {gameState === 'complete' && (
-          <GameComplete onRestart={handleRestart} />
+          <GameComplete onRestart={handleRestart} talkBackEnabled={talkBackEnabled} />
         )}
       </div>
     </div>

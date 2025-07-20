@@ -54,7 +54,7 @@ const AudioMode: React.FC<AudioModeProps> = ({
     }
 
     // Auto-discovery only at very close range (much smaller threshold)
-    if (distance < 10) {
+    if (distance < 15) {
       onCreatureFound();
     }
   }, [cursorPosition, creaturePosition, detectionRadius, onCreatureFound, isFound, creature.id, playCreatureProximitySound]);

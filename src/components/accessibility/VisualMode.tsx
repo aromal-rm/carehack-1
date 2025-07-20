@@ -35,7 +35,7 @@ const VisualMode: React.FC<VisualModeProps> = ({
     setPulseIntensity(proximityValue);
 
     // Auto-discovery only at very close range (much smaller threshold)
-    if (distance < 10) {
+    if (distance < 15) {
       onCreatureFound();
     }
   }, [cursorPosition, creaturePosition, detectionRadius, onCreatureFound, isFound]);
