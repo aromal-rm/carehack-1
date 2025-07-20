@@ -48,10 +48,12 @@ const GameEngine: React.FC<GameEngineProps> = ({
   }, []);
 
   useEffect(() => {
-    // Give initial instructions when level starts
-    const creature = creatures.find(c => c.level === level);
-    if (creature) {
-      speak(`Level ${level}: Find the hidden ${creature.name}. Move your cursor slowly and listen for audio cues. Press Enter when you think you've found it.`);
+    // Only speak instructions if talkBackEnabled
+    if (talkBackEnabled) {
+      const creature = creatures.find(c => c.level === level);
+      if (creature) {
+        speak(`Level ${level}: Find the hidden ${creature.name}. Move your cursor slowly and listen for audio cues. Press Enter when you think you've found it.`);
+      }
     }
   }, [level, speak]);
 
@@ -201,6 +203,7 @@ const GameEngine: React.FC<GameEngineProps> = ({
           fact={currentFact}
           onClose={() => setShowFact(false)}
           onComplete={handleFactComplete}
+          talkBackEnabled={talkBackEnabled}
         />
       )}
 

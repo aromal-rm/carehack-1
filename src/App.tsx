@@ -45,7 +45,6 @@ function App() {
       setGameState('levelIntro');
     } else {
       setGameState('complete');
-      speak("Congratulations! You have completed all levels of Echo Grove!");
     }
   };
 
@@ -122,7 +121,7 @@ function App() {
         )}
         
         {gameState === 'complete' && (
-          <GameComplete onRestart={handleRestart} />
+          <GameComplete onRestart={handleRestart} talkBackEnabled={talkBackEnabled} />
         )}
       </div>
     </div>
