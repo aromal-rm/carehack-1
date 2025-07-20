@@ -64,7 +64,7 @@ const CreatureFactBox: React.FC<CreatureFactBoxProps> = ({ creature, fact, onClo
             <div>
               <h3 className="text-2xl font-bold text-emerald-300">
                 {creature.name} Found!
-                style={{ width: `${((5 - countdown) / 5) * 100}%` }}
+              </h3>
               <p className="text-emerald-200">Did you know?</p>
             </div>
           </div>
