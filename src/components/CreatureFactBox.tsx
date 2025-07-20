@@ -13,7 +13,7 @@ interface CreatureFactBoxProps {
 const CreatureFactBox: React.FC<CreatureFactBoxProps> = ({ creature, fact, onClose, onComplete }) => {
   const { speak } = useTalkBack(true);
   const [isNarrating, setIsNarrating] = useState(true);
-  const [countdown, setCountdown] = useState(3);
+  const [countdown, setCountdown] = useState(5);
   const hasSpoken = useRef(false);
 
   useEffect(() => {
@@ -25,13 +25,13 @@ const CreatureFactBox: React.FC<CreatureFactBoxProps> = ({ creature, fact, onClo
       // Estimate speech duration (roughly 150 words per minute)
       const wordCount = fullText.split(' ').length;
       const estimatedDuration = (wordCount / 150) * 60 * 1000; // Convert to milliseconds
-      const minDuration = 4000; // Minimum 4 seconds
+      const minDuration = 5000; // Minimum 5 seconds
       const speechDuration = Math.max(estimatedDuration, minDuration);
       
       const speechTimer = setTimeout(() => {
         setIsNarrating(false);
         // Start countdown after speech completes
-        let countdownValue = 3;
+        let countdownValue = 5;
         setCountdown(countdownValue);
         
         const countdownInterval = setInterval(() => {
@@ -64,7 +64,7 @@ const CreatureFactBox: React.FC<CreatureFactBoxProps> = ({ creature, fact, onClo
             <div>
               <h3 className="text-2xl font-bold text-emerald-300">
                 {creature.name} Found!
-              </h3>
+                style={{ width: `${((5 - countdown) / 5) * 100}%` }}
               <p className="text-emerald-200">Did you know?</p>
             </div>
           </div>

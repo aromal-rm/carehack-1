@@ -37,10 +37,6 @@ function App() {
 
   const handleLevelStart = () => {
     setGameState('playing');
-    const creature = creatures.find(c => c.level === currentLevel);
-    if (creature) {
-      speak(`Level ${currentLevel}: Find the hidden ${creature.name}. Move your cursor slowly and listen for audio cues. Press Enter when you think you've found it.`);
-    }
   };
 
   const handleLevelComplete = () => {

@@ -48,8 +48,12 @@ const GameEngine: React.FC<GameEngineProps> = ({
   }, []);
 
   useEffect(() => {
-    // Instructions are now handled in App.tsx when level starts
-  }, [level, currentCreature.name, speak]);
+    // Give initial instructions when level starts
+    const creature = creatures.find(c => c.level === level);
+    if (creature) {
+      speak(`Level ${level}: Find the hidden ${creature.name}. Move your cursor slowly and listen for audio cues. Press Enter when you think you've found it.`);
+    }
+  }, [level, speak]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (gameAreaRef.current && !isFound) {
